@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Car;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -20,7 +21,10 @@ class InsuranceController extends Controller
      */
     public function create()
     {
-        //
+        $cars = Car::with(['series'])->get();
+        return Inertia::render('Insurance/Create', [
+            "cars" => $cars
+        ]);
     }
 
     /**
