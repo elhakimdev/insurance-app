@@ -1,5 +1,5 @@
 <script setup>
-import { ref, toRefs } from 'vue'
+import { ref, toRefs, watch } from 'vue'
 import {
   Listbox,
   ListboxLabel,
@@ -9,16 +9,23 @@ import {
 } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 
-const props = defineProps(['options', 'selectedOptions']);
-const selectedOptions = ref(null);
+const props = defineProps(['options', 'selectedOption']);
+const emits = defineEmits(["update:selectedOption"]);
+
+const selectedOption = ref(null);
+watch(() => selectedOption.value, (n) => {
+  if(n){
+    emits("update:selectedOption", n);
+  }
+})
 </script>
 <template>
-  <Listbox v-model="selectedOptions">
+  <Listbox v-model="selectedOption">
     <div class="relative mt-1">
       <ListboxButton
-        class="relative w-full cursor-default rounded-md bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 border-gray-300 border"
+        class="relative w-full cursor-default rounded-md bg-white py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 border-gray-300 border"
       >
-        <span class="block truncate">{{ selectedOptions ? selectedOptions.text : "Please Select" }}</span>
+        <span class="block truncate">{{ selectedOption ? selectedOption.text : "Please Select" }}</span>
         <span
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
         >
@@ -35,7 +42,7 @@ const selectedOptions = ref(null);
         leave-to-class="opacity-0"
       >
         <ListboxOptions
-          class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+          class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-[100]"
         >
           <ListboxOption
             v-slot="{ active, selected }"
@@ -69,6 +76,4 @@ const selectedOptions = ref(null);
       </transition>
     </div>
   </Listbox>
-  <!-- <div class="fixed top-16 w-72">
-  </div> -->
 </template>

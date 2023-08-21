@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Models\Color;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -22,8 +23,10 @@ class InsuranceController extends Controller
     public function create()
     {
         $cars = Car::with(['series'])->get();
+        $colors = Color::all();
         return Inertia::render('Insurance/Create', [
-            "cars" => $cars
+            "cars" => $cars,
+            "colors" => $colors
         ]);
     }
 
