@@ -68,11 +68,11 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 - clone this repo 
 - after clone, open terminal and point to the cloned app
 - run command 
-```docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/var/www/html -w /var/www/html laravelsail/php81-composer:latest composer install --ignore-platform-reqs```
-```cp .env.example .env```
-```docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/var/www/html -w /var/www/html laravelsail/php82-composer:latest php artisan sail:install --devcontainer```
-```./vendor/bin/sail up -d```
-```./vendor/bin/sail artisan key:generate```
-```./vendor/bin/sail artisan migrate```
-```./vendor/bin/sail artisan db:seed```
-```./vendor/bin/sail npm run build (to build vue client app)```
+- ```docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/var/www/html -w /var/www/html laravelsail/php81-composer:latest composer install --ignore-platform-reqs```
+- ```cp .env.example .env```
+- ```docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/var/www/html -w /var/www/html laravelsail/php82-composer:latest php artisan sail:install --devcontainer```
+- ```./vendor/bin/sail up -d```
+- ```./vendor/bin/sail artisan key:generate```
+- ```./vendor/bin/sail artisan migrate```
+- ```./vendor/bin/sail artisan db:seed```
+- ```./vendor/bin/sail npm run build (to build vue client app)```
