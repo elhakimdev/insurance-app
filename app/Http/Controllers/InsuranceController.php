@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Car;
 use App\Models\Color;
+use App\Models\Image;
+use App\Models\Insurance;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class InsuranceController extends Controller
@@ -35,7 +39,38 @@ class InsuranceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $image = null;
+
+        if($request->has('image') && $request->file('image') !== null){
+            $originalName = $request->file('image')->getClientOriginalName();
+            $extension  = $request->file('image')->getClientOriginalExtension(); 
+            $filename   = time() . '.' . $originalName;
+            $path       = 'storage/images';
+            $size       = $request->file('image')->getSize();
+            Storage::putFileAs($path, $request->image, $filename); 
+
+            $image = Image::create([
+                "image_original_name" => $originalName,
+                "image_name" => $filename,
+                "image_extension" => $extension,
+                "image_path" => $path,
+                "image_size" => $size,
+            ]);
+        }
+
+        Insurance::updateOrCreate([
+            'case' => $request->case ? $request->case : null,
+        ], [
+            'case' => $request->case ? $request->case : null,
+            'millage' => $request->millage ? $request->millage : null,
+            'buying_date' => $request->buying_date ? date('Y-m-d H:i:s',$request->buying_date/1000)  : null,
+            'case' => $request->case ? $request->case : null,
+            'car_id' => $request->car_id ? $request->car_id : null,
+            'color_id' => $request->color_id ? $request->color_id : null,
+            'series_id' => $request->series_id ? $request->series_id : null,
+            'image_id' => $image ? $image->id : null,
+        ]);
     }
 
     /**
