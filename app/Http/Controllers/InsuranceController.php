@@ -70,6 +70,7 @@ class InsuranceController extends Controller
             'color_id' => $request->color_id ? $request->color_id : null,
             'series_id' => $request->series_id ? $request->series_id : null,
             'image_id' => $image ? $image->id : null,
+            'drive_train' => $request->drive_train ? $request->drive_train : null
         ]);
     }
 

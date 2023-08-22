@@ -10,7 +10,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import Select from '@/Components/Select.vue';
-import {NDatePicker, NUpload, NUploadDragger, NText, NP, NIcon, formProps, NNotificationProvider} from "naive-ui";
+import {NDatePicker, NUpload, NUploadDragger, NText, NP, NIcon, formProps, NNotificationProvider, NButton} from "naive-ui";
 import { ArchiveOutline as ArchiveIcon } from '@vicons/ionicons5';
 import { router } from '@inertiajs/vue3';
 import PQueue from 'p-queue';
@@ -104,6 +104,15 @@ function store(){
 const queue = new PQueue({ concurrency: 1 });
 
 const showAlert = ref(false);
+const showInsuficientMillage = ref(false);
+
+watch(() => form.data(), (n) => {
+  if(n.millage > 1000){
+    showInsuficientMillage.value = true;
+  } else {
+    showInsuficientMillage.value = false;
+  }
+})
 
 watchDebounced(() => form.data(), (n) => {
     queue.clear()
@@ -112,10 +121,13 @@ watchDebounced(() => form.data(), (n) => {
       car_id: computed(() => n.car).value?.value,
       series_id: computed(() => n.series).value?.value,
       color_id: computed(() => n.color).value?.value,
+      drive_train: computed(() => n.driveTrain).value?.value,
       millage: n.millage,
       buying_date: n.buyingDate,
       image: n.image
     };
+
+    console.log(data)
 
     const onSuccessStoreCallback = (res) => {
       showAlert.value = true;
@@ -129,8 +141,12 @@ watchDebounced(() => form.data(), (n) => {
     }));
 }, {
   debounce: 250,
-  maxWait: 1000
+  maxWait: 1000,
 });
+
+const onGetQuote = () => {
+  alert('Thank You For Filling Up !');
+}
 
 </script>
 <template>
@@ -138,6 +154,9 @@ watchDebounced(() => form.data(), (n) => {
     <div class="w-full max-w-full px-2 py-16 sm:px-0">
       <NAlert title="Success saving" type="info" class="mb-5" v-if="showAlert">
         Successfully auto-save changes !
+      </NAlert>
+      <NAlert title="Ooops !!!" type="warning" class="mb-5" v-if="showInsuficientMillage">
+        We can't insure your car !
       </NAlert>
       <TabGroup>
         <TabList class="flex w-full space-x-1 rounded-xl bg-blue-900/20 p-1">
@@ -291,6 +310,9 @@ watchDebounced(() => form.data(), (n) => {
           </TabPanel>
         </TabPanels>
       </TabGroup>
+      <NButton :disabled="showInsuficientMillage" type="info" class="flex w-full mt-6 bg-blue-700" @click="onGetQuote()">
+        Get Quote
+      </NButton>
     </div>
 
 </template>

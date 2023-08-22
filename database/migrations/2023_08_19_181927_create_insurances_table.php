@@ -18,8 +18,9 @@ return new class extends Migration
         Schema::create('insurances', function (Blueprint $table) {
             $table->id();
             $table->char('case')->nullable()->default(null);
-            $table->float('millage')->nullable()->default(null);
+            $table->integer('millage')->nullable()->default(null);
             $table->datetime('buying_date')->nullable()->default(null);
+            $table->char('drive_train')->nullable()->default(null);
             $table->foreignIdFor(Car::class)->nullable()->default(null);
             $table->foreignIdFor(Series::class)->nullable()->default(null);
             $table->foreignIdFor(Color::class)->nullable()->default(null);
