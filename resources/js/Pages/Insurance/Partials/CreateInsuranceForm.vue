@@ -15,7 +15,7 @@ import { ArchiveOutline as ArchiveIcon } from '@vicons/ionicons5';
 import { router } from '@inertiajs/vue3';
 import PQueue from 'p-queue';
 import { useDebounceFn, watchDebounced } from '@vueuse/core';
-import { useNotification } from 'naive-ui';
+import { useNotification, NAlert } from 'naive-ui';
 const notification = useNotification();
 
 
@@ -103,6 +103,8 @@ function store(){
 // initalize concurency system using queue mechanism
 const queue = new PQueue({ concurrency: 1 });
 
+const showAlert = ref(false);
+
 watchDebounced(() => form.data(), (n) => {
     queue.clear()
     const data = {
@@ -116,10 +118,10 @@ watchDebounced(() => form.data(), (n) => {
     };
 
     const onSuccessStoreCallback = (res) => {
-      const notification = useNotification();
-      notification?.success({
-        content: "Saving data"
-      })
+      showAlert.value = true;
+      setTimeout(() => {
+        showAlert.value = false;
+      }, 1000);
     }
 
     queue.add(() => router.post('/insurance', data, {
@@ -134,6 +136,9 @@ watchDebounced(() => form.data(), (n) => {
 <template>
  
     <div class="w-full max-w-full px-2 py-16 sm:px-0">
+      <NAlert title="Success saving" type="info" class="mb-5" v-if="showAlert">
+        Successfully auto-save changes !
+      </NAlert>
       <TabGroup>
         <TabList class="flex w-full space-x-1 rounded-xl bg-blue-900/20 p-1">
           <Tab v-slot="{ selected }" as="template">
