@@ -64,7 +64,7 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-## Step To Installl (when using docker)
+## Step To Installl (when using docker for better option setup)
 - clone this repo 
 - after clone, open terminal and point to the cloned app
 - run command ```
