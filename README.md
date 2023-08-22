@@ -71,8 +71,10 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 - ```docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/var/www/html -w /var/www/html laravelsail/php81-composer:latest composer install --ignore-platform-reqs```
 - ```cp .env.example .env```
 - ```docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/var/www/html -w /var/www/html laravelsail/php82-composer:latest php artisan sail:install --devcontainer```
+- after container has been started please run these command
 - ```./vendor/bin/sail up -d```
 - ```./vendor/bin/sail artisan key:generate```
 - ```./vendor/bin/sail artisan migrate```
 - ```./vendor/bin/sail artisan db:seed```
-- ```./vendor/bin/sail npm run build (to build vue client app)```
+- then, last command, please run : 
+- ```./vendor/bin/sail npm run build``` to running vue js on prod mode 
